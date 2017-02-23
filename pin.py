@@ -7,24 +7,61 @@ def partial_duplication_model(G,p,q,s,max_score):
     #for i in range(s):
     #        G.add_node(i,name = "u")
     # for i in range(0,10):
-	
-	node = random.choice(G.nodes())
-	v = max_score + 1
-	G.add_node(v)
-        
-	G.add_edge(v,node,weight = q)
 	k=G.number_of_nodes()
-        #for j in range(k):
-	for i in G.neighbors(node):
-		if not i==v:
-			G.add_edge(i,node,weight = p)
+	list=[]
 	
-	#print("drawing the graph")
+	for i in range(s):
+		#random.randint(1,k)
+		node = random.choice(G.nodes())
+		if node not in list:
+			v = max_score + i
+			G.add_node(v)
+			list.append(node)
+        
+			G.add_edge(v,node,weight = q)
+	
+        #for j in range(k):
+			for j in G.neighbors(node):
+				if not j==v:
+					G.add_edge(j,node,weight = p)
+		
+	
+	print(G.number_of_nodes())
+	
+	return(G)
+	
+def eksperiments(G):
+	print("drawing the graph/loglog-plot")
+	#W=nx.degree_histogram(G)
+	#plt.loglog(W)
+	#plt.show()
 	#nx.draw(G)
 	#plt.show()
+	y=[]
+	x=[]
+	i=0
 	for node in G.nodes():
-		x=degree(node)
-
+		t=G.degree(node)
+		x.append(i)
+		y.append(t)
+		i=i+1
+	
+	#W=G.degree()
+	#x=range(k)
+	sorted(y)
+	#print("y=",y)
+	#print("x=",x)
+	plt.loglog(x,y)
+	plt.show()
+	#plt.savefig("loglog-plot.png")
+	#print("Average shortest path: ")
+	
+	#p=nx.average_shortest_path_length(G)
+	#print(p)
+	
+	print("Clustering coefficient: ")
+	print(nx.average_clustering(G))
+	
 	
 if __name__ == '__main__':
 	f=open("4932.protein.links.v10.txt","r").readlines()
@@ -56,7 +93,13 @@ if __name__ == '__main__':
 		
 	p = 0.3
 	q = 0.7
-	s = 2
-	partial_duplication_model(G,p,q,s,max_score)
+	s = G.number_of_nodes()
+	print(s)
+	#node = random.choice(G.nodes())
+	#print(node)
+	print("before: ",nx.is_connected(G))
+	G1=partial_duplication_model(G,p,q,s,max_score)
+	print("after: ",nx.is_connected(G))
+	eksperiments(G1)
 
 	
