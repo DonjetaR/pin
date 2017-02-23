@@ -34,4 +34,6 @@ if __name__ == '__main__':
 		
 	
 	duplicatin_duplication_model()
+
+print("hello")
 	
