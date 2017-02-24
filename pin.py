@@ -18,7 +18,7 @@ def partial_duplication_model(p,q,s):
 	print("Number of nodes before",G.number_of_nodes())
 	print("Is it connected before: ",nx.is_connected(G))
 	
-	size_of_G=100
+	size_of_G=1000
 	
 	for v in range(s,size_of_G):
 		prob=random.uniform(0,1)
@@ -110,93 +110,75 @@ def duplication_divergence_model(p,q,r,s):
 	return(G)
 	
 def experiments(G):
-	print("drawing the loglog-plot")
-	y=sorted(nx.degree(G).values())
-	x=range(G.number_of_nodes())
-	plt.loglog(x,y)
-	plt.show()
-	plt.savefig("loglog-plot.png")
-	
-	print("Average shortest path: ")
-	connected_G=nx.connected_component_subgraphs(G)
-	#print(connected_G)
-	p=0
-	j=0
-	for i in connected_G:
-		p=p+nx.average_shortest_path_length(i)
-		j=j+1
-	#print("j=",j)
-	average_p=p/float(j)
-	print(average_p)
-	
-	print("Clustering coefficient: ")
-	print(nx.average_clustering(G))
-	print("Number of nodes : ")
-	print(nx.number_of_nodes(G))
-	#print("drawing the graph")
-	#nx.draw(G)
-	#plt.show()
+        print("drawing the loglog-plot")
+        y=sorted(nx.degree(G).values())
+        x=range(G.number_of_nodes())
+        plt.loglog(x,y)
+        plt.show()
+        plt.savefig("loglog-plot.png")
+
+        print("Average shortest path: ")
+        connected_G=nx.connected_component_subgraphs(G)
+        #print(connected_G)
+        p=0.0
+        j=0.0
+        for i in connected_G:
+                #print("hello")
+                p=p+nx.average_shortest_path_length(i)
+                j=j+1
+                #print("j=",j)
+        
+        average_p=p/j
+        #print(average_p)
+        print(average_p)
+        print("Clustering coefficient: ")
+        print(nx.average_clustering(G))
+        print("Number of nodes : ")
+        print(nx.number_of_nodes(G))
+        #print("drawing the graph")
+        #nx.draw(G)
+        #plt.show()
 
 def random_attack(G,num_remove):
-        
         for i in range(1,num_remove):
                 #list_of_nodes = G.nodes()
                 node = random.choice(G.nodes())
                 #random_nodes = random.sample(list_of_nodes,2)
                 #G.remove_nodes_from(random_nodes)
                 G.remove_node(node)
-        experiments(G)               
-	#return G
+                
+        return(G)
 	
 if __name__ == '__main__':
-	f=open("4932.protein.links.v10.txt","r").readlines()
-	#f.readline()
-	#for x in f:
-	#f.split("\n")
-	G=nx.Graph()
-	#max_score=0
-	#min_score=1000
-	
-	
-	for x in f[1:]:
-		y=x.split(" ")		
-		for node in y[:1]:
-			if int(y[2])>=990:
-				G.add_node(node)
-		if int(y[2])>=990:
-			G.add_edge(y[0], y[1], weight=int(y[2]))
-	#	temp=int(y[2])
-		#print(type(temp))
-	#	max_score=max(max_score,temp)
-		#min_score=min(min_score,temp)
-	#print(max_score)
-	#print(min_score)
-	
-	#nx.draw(G)
-	#plt.show()
-	#plt.savefig("graph.png")
-		
-	p = 0.3
-	q = 0.7
-	r = 0.6
-	s = 1
-	#print(s)
-	#node = random.choice(G.nodes())
-	#print(node)
-	#print("before: ",nx.is_connected(G))
-	#G1=partial_duplication_model(p,q,s)
-	#G2=duplication_divergence_model(p,q,r,s)
-	#print("after: ",nx.is_connected(G))
-	#eksperiments(G)
+        f=open("4932.protein.links.v10.txt","r").readlines()
+        #f.readline()
+        #for x in f:
+        #f.split("\n")
+        G=nx.Graph()
+        #max_score=0
+        #min_score=1000
 
-	#nodes = nx.number_of_nodes(G)
-	#print(nodes)
-
-	G3 = nx.fast_gnp_random_graph(nodes, 0.01)
-	#degree_sequence_random = nx.degree_histogram(random_graph)
-	#print(degree_sequence_random)
-	experiments(G3)
-	num_remove = [100,200,300,400,500]
-	for i in num_remove:
-                random_attack(G,i)
+        for x in f[1:]:
+                y=x.split(" ")
+                for node in y[:1]:
+                        if int(y[2])>=990:
+                                G.add_node(node)
+                if int(y[2])>=990:
+                        G.add_edge(y[0], y[1], weight=int(y[2]))
+        p = 0.99
+        q = 0.3
+        r = 0.6
+        s = 1
+        G1 = partial_duplication_model(p,q,s)
+        
+        #nodes = G.number_of_nodes()
+        #G3 = nx.fast_gnp_random_graph(nodes, 0.01)
+        #degree_sequence_random = nx.degree_histogram(random_graph)
+        #print(degree_sequence_random)
+        #experiments(G3)
+        num_remove = [100,100,100,100,100]
+        for i in num_remove:
+                print(i)
+                random_attack(G1,i)
+                experiments(G1)
 	
