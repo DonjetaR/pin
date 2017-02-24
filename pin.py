@@ -109,13 +109,13 @@ def duplication_divergence_model(p,q,r,s):
 	#plt.show()
 	return(G)
 	
-def eksperiments(G):
+def experiments(G):
 	print("drawing the loglog-plot")
 	y=sorted(nx.degree(G).values())
 	x=range(G.number_of_nodes())
 	plt.loglog(x,y)
 	plt.show()
-	#plt.savefig("loglog-plot.png")
+	plt.savefig("loglog-plot.png")
 	
 	print("Average shortest path: ")
 	connected_G=nx.connected_component_subgraphs(G)
@@ -136,7 +136,17 @@ def eksperiments(G):
 	#print("drawing the graph")
 	#nx.draw(G)
 	#plt.show()
-	
+
+def random_attack(G,num_remove):
+        
+        for i in range(1,num_remove):
+                #list_of_nodes = G.nodes()
+                node = random.choice(G.nodes())
+                #random_nodes = random.sample(list_of_nodes,2)
+                #G.remove_nodes_from(random_nodes)
+                G.remove_node(node)
+        experiments(G)               
+	#return G
 	
 if __name__ == '__main__':
 	f=open("4932.protein.links.v10.txt","r").readlines()
@@ -185,5 +195,8 @@ if __name__ == '__main__':
 	G3 = nx.fast_gnp_random_graph(nodes, 0.01)
 	#degree_sequence_random = nx.degree_histogram(random_graph)
 	#print(degree_sequence_random)
-	eksperiments(G3)
+	experiments(G3)
+	num_remove = [100,200,300,400,500]
+	for i in num_remove:
+                random_attack(G,i)
 	
