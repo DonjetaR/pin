@@ -1,6 +1,7 @@
 import networkx as nx 
 import matplotlib.pyplot as plt
 import random
+from networkx.generators.classic import empty_graph, path_graph, complete_graph
 
 def partial_duplication_model(p,q,s):
     #G = nx.Graph()
@@ -130,7 +131,8 @@ def eksperiments(G):
 	
 	print("Clustering coefficient: ")
 	print(nx.average_clustering(G))
-	
+	print("Number of nodes : ")
+	print(nx.number_of_nodes(G))
 	#print("drawing the graph")
 	#nx.draw(G)
 	#plt.show()
@@ -175,6 +177,13 @@ if __name__ == '__main__':
 	#G1=partial_duplication_model(p,q,s)
 	#G2=duplication_divergence_model(p,q,r,s)
 	#print("after: ",nx.is_connected(G))
-	eksperiments(G)
+	#eksperiments(G)
 
+	#nodes = nx.number_of_nodes(G)
+	#print(nodes)
+
+	G3 = nx.fast_gnp_random_graph(nodes, 0.01)
+	#degree_sequence_random = nx.degree_histogram(random_graph)
+	#print(degree_sequence_random)
+	eksperiments(G3)
 	
