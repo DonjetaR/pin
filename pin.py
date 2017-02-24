@@ -119,9 +119,14 @@ def eksperiments(G):
 	print("Average shortest path: ")
 	connected_G=nx.connected_component_subgraphs(G)
 	#print(connected_G)
+	p=0
+	j=0
 	for i in connected_G:
-		p=nx.average_shortest_path_length(i)
-		print(p)
+		p=p+nx.average_shortest_path_length(i)
+		j=j+1
+	#print("j=",j)
+	average_p=p/float(j)
+	print(average_p)
 	
 	print("Clustering coefficient: ")
 	print(nx.average_clustering(G))
@@ -132,22 +137,22 @@ def eksperiments(G):
 	
 	
 if __name__ == '__main__':
-	#f=open("4932.protein.links.v10.txt","r").readlines()
+	f=open("4932.protein.links.v10.txt","r").readlines()
 	#f.readline()
 	#for x in f:
 	#f.split("\n")
-	#G=nx.Graph()
+	G=nx.Graph()
 	#max_score=0
 	#min_score=1000
 	
 	
-	# x in f[1:]:
-	#	y=x.split(" ")		
-	#	for node in y[:1]:
-	#		if int(y[2])>=990:
-	#			G.add_node(node)
-	#	if int(y[2])>=990:
-	#		G.add_edge(y[0], y[1], weight=int(y[2]))
+	for x in f[1:]:
+		y=x.split(" ")		
+		for node in y[:1]:
+			if int(y[2])>=990:
+				G.add_node(node)
+		if int(y[2])>=990:
+			G.add_edge(y[0], y[1], weight=int(y[2]))
 	#	temp=int(y[2])
 		#print(type(temp))
 	#	max_score=max(max_score,temp)
@@ -167,9 +172,9 @@ if __name__ == '__main__':
 	#node = random.choice(G.nodes())
 	#print(node)
 	#print("before: ",nx.is_connected(G))
-	G1=partial_duplication_model(p,q,s)
+	#G1=partial_duplication_model(p,q,s)
 	#G2=duplication_divergence_model(p,q,r,s)
 	#print("after: ",nx.is_connected(G))
-	eksperiments(G1)
+	eksperiments(G)
 
 	
