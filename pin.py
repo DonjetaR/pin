@@ -45,7 +45,8 @@ def duplication_divergence_model(p,q,r,s):
     # for i in range(0,10):
 	
 	#list=[]
-	
+
+	s = 5
 	G=nx.Graph()
 	
 	for i in range(s):
@@ -72,7 +73,7 @@ def duplication_divergence_model(p,q,r,s):
 	#nx.draw(G)
 	#plt.show()
 	
-	size_of_G=10
+	size_of_G=3000
 	
 	for v in range(s,size_of_G):
 
@@ -117,16 +118,22 @@ def experiments(G):
         plt.show()
         plt.savefig("loglog-plot.png")
 
+        isolate = nx.isolates(G)
+        for i in isolate:
+                G.remove_node(i)
+        
         print("Average shortest path: ")
         connected_G=nx.connected_component_subgraphs(G)
         #print(connected_G)
-        p=0.0
-        j=0.0
+        p=0
+        j=0
+
+        
         for i in connected_G:
-                #print("hello")
+                #print("degree : ",len(i))
                 p=p+nx.average_shortest_path_length(i)
                 j=j+1
-                #print("j=",j)
+                        
         
         average_p=p/j
         #print(average_p)
@@ -169,8 +176,9 @@ if __name__ == '__main__':
         q = 0.3
         r = 0.6
         s = 1
-        G1 = partial_duplication_model(p,q,s)
-        
+        #print(nx.number_of_nodes(G))
+        #G1 = partial_duplication_model(p,q,s)
+        G2 = duplication_divergence_model(p,q,r,s)
         #nodes = G.number_of_nodes()
         #G3 = nx.fast_gnp_random_graph(nodes, 0.01)
         #degree_sequence_random = nx.degree_histogram(random_graph)
@@ -179,6 +187,6 @@ if __name__ == '__main__':
         num_remove = [100,100,100,100,100]
         for i in num_remove:
                 print(i)
-                random_attack(G1,i)
-                experiments(G1)
+                random_attack(G,i)
+                experiments(G)
 	
