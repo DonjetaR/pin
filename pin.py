@@ -18,7 +18,7 @@ def partial_duplication_model(p,q,s):
 	print("Number of nodes before",G.number_of_nodes())
 	print("Is it connected before: ",nx.is_connected(G))
 	
-	size_of_G=1000
+	size_of_G=3000
 	
 	for v in range(s,size_of_G):
 		prob=random.uniform(0,1)
@@ -177,8 +177,8 @@ if __name__ == '__main__':
         r = 0.6
         s = 1
         #print(nx.number_of_nodes(G))
-        #G1 = partial_duplication_model(p,q,s)
-        G2 = duplication_divergence_model(p,q,r,s)
+        G1 = partial_duplication_model(p,q,s)
+        #G2 = duplication_divergence_model(p,q,r,s)
         #nodes = G.number_of_nodes()
         #G3 = nx.fast_gnp_random_graph(nodes, 0.01)
         #degree_sequence_random = nx.degree_histogram(random_graph)
@@ -187,6 +187,6 @@ if __name__ == '__main__':
         num_remove = [100,100,100,100,100]
         for i in num_remove:
                 print(i)
-                random_attack(G,i)
-                experiments(G)
+                random_attack(G1,i)
+                experiments(G1)
 	
