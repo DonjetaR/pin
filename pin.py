@@ -2,6 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 from networkx.generators.classic import empty_graph, path_graph, complete_graph
+from operator import itemgetter
 
 def partial_duplication_model(p,q,s):
     #G = nx.Graph()
@@ -155,7 +156,18 @@ def random_attack(G,num_remove):
                 G.remove_node(node)
                 
         return(G)
-	
+def highest_degree_attack(G):
+		print(nx.degree(G))
+		sorted_list=sorted(G.degree_iter(),key=itemgetter(1),reverse=True)[0:10] 
+		#print(sorted_list)
+		for i in sorted_list:
+				G.remove_node(i)
+				experiments(G)
+                
+        #return(G)
+
+
+		
 if __name__ == '__main__':
         f=open("4932.protein.links.v10.txt","r").readlines()
         #f.readline()
@@ -172,21 +184,23 @@ if __name__ == '__main__':
                                 G.add_node(node)
                 if int(y[2])>=990:
                         G.add_edge(y[0], y[1], weight=int(y[2]))
-        p = 0.99
-        q = 0.3
-        r = 0.6
-        s = 1
+		p = 0.99
+		q = 0.3
+		r = 0.6
+		s = 1
+		
         #print(nx.number_of_nodes(G))
         G1 = partial_duplication_model(p,q,s)
         #G2 = duplication_divergence_model(p,q,r,s)
-        #nodes = G.number_of_nodes()
+        highest_degree_attack(G1)
+		#nodes = G.number_of_nodes()
         #G3 = nx.fast_gnp_random_graph(nodes, 0.01)
         #degree_sequence_random = nx.degree_histogram(random_graph)
         #print(degree_sequence_random)
         #experiments(G3)
-        num_remove = [100,100,100,100,100]
-        for i in num_remove:
-                print(i)
-                random_attack(G1,i)
-                experiments(G1)
+        #num_remove = [100,100,100,100,100]
+        #for i in num_remove:
+        #        print(i)
+        #        random_attack(G1,i)
+        #        experiments(G1)
 	
