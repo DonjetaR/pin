@@ -19,7 +19,7 @@ def partial_duplication_model(p,q,s):
 	print("Number of nodes before",G.number_of_nodes())
 	print("Is it connected before: ",nx.is_connected(G))
 	
-	size_of_G=3000
+	size_of_G=1000
 	
 	for v in range(s,size_of_G):
 		prob=random.uniform(0,1)
@@ -112,37 +112,46 @@ def duplication_divergence_model(p,q,r,s):
 	return(G)
 	
 def experiments(G):
-        print("drawing the loglog-plot")
-        y=sorted(nx.degree(G).values())
-        x=range(G.number_of_nodes())
-        plt.loglog(x,y)
-        plt.show()
-        plt.savefig("loglog-plot.png")
-
-        isolate = nx.isolates(G)
-        for i in isolate:
-                G.remove_node(i)
+		print("drawing the loglog-plot")
         
-        print("Average shortest path: ")
-        connected_G=nx.connected_component_subgraphs(G)
-        #print(connected_G)
-        p=0
-        j=0
+		y=sorted(nx.degree(G).values(),reverse=True)
+        #x=range(G.number_of_nodes())
+		plt.loglog(y,'b-', marker='o')
+		plt.title("Degree rank plot")
+		plt.ylabel("Degree")
+		plt.xlabel("Rank")
+        #plt.show()
+		plt.axes([0.45,0.45,0.45,0.45])
+		Gcc=sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
+		pos=nx.spring_layout(Gcc)
+		plt.axis('off')
+		nx.draw_networkx_nodes(Gcc,pos,node_size=20)
+		nx.draw_networkx_edges(Gcc,pos,alpha=0.4)
+		plt.show()
 
-        
-        for i in connected_G:
+		isolate = nx.isolates(G)
+		for i in isolate:
+			G.remove_node(i)
+		
+		print("Average shortest path: ")
+		connected_G=nx.connected_component_subgraphs(G)
+		#print(connected_G)
+		p=0
+		j=0
+		
+		for i in connected_G:
                 #print("degree : ",len(i))
-                p=p+nx.average_shortest_path_length(i)
-                j=j+1
+			p=p+nx.average_shortest_path_length(i)
+			j=j+1
                         
         
-        average_p=p/j
+		average_p=p/j
         #print(average_p)
-        print(average_p)
-        print("Clustering coefficient: ")
-        print(nx.average_clustering(G))
-        print("Number of nodes : ")
-        print(nx.number_of_nodes(G))
+		print(average_p)
+		print("Clustering coefficient: ")
+		print(nx.average_clustering(G))
+		print("Number of nodes : ")
+		print(nx.number_of_nodes(G))
         #print("drawing the graph")
         #nx.draw(G)
         #plt.show()
@@ -156,15 +165,16 @@ def random_attack(G,num_remove):
                 G.remove_node(node)
                 
         return(G)
-def highest_degree_attack(G):
-		print(nx.degree(G))
-		sorted_list=sorted(G.degree_iter(),key=itemgetter(1),reverse=True)[0:10] 
-		#print(sorted_list)
+def highest_degree_attack(G,num_remove):
+		#print(nx.degree(G))
+		sorted_list=sorted(G.degree_iter(),key=itemgetter(1),reverse=True)[0:num_remove] 
+		#print(sorted_list[0])
+		#print(sorted_list[0][0])
 		for i in sorted_list:
-				G.remove_node(i)
-				experiments(G)
-                
-        #return(G)
+				#print(i)
+				#print(i[0])
+				G.remove_node(i[0])
+		return(G)
 
 
 		
@@ -190,17 +200,19 @@ if __name__ == '__main__':
 		s = 1
 		
         #print(nx.number_of_nodes(G))
-        G1 = partial_duplication_model(p,q,s)
-        #G2 = duplication_divergence_model(p,q,r,s)
-        highest_degree_attack(G1)
+        #G1 = partial_duplication_model(p,q,s)
+        G2 = duplication_divergence_model(p,q,r,s)
+        
 		#nodes = G.number_of_nodes()
         #G3 = nx.fast_gnp_random_graph(nodes, 0.01)
         #degree_sequence_random = nx.degree_histogram(random_graph)
         #print(degree_sequence_random)
         #experiments(G3)
-        #num_remove = [100,100,100,100,100]
-        #for i in num_remove:
-        #        print(i)
+        num_remove = [1,1,1,1,1]
+        for i in num_remove:
+				print(i)
         #        random_attack(G1,i)
-        #        experiments(G1)
+				highest_degree_attack(G2,i)
+				experiments(G2)
+				
 	
