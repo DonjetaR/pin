@@ -194,25 +194,25 @@ if __name__ == '__main__':
                                 G.add_node(node)
                 if int(y[2])>=990:
                         G.add_edge(y[0], y[1], weight=int(y[2]))
-		p = 0.99
-		q = 0.3
-		r = 0.6
-		s = 1
+        p = 0.99
+        q = 0.3
+        r = 0.6
+        s = 1
 		
         #print(nx.number_of_nodes(G))
-        #G1 = partial_duplication_model(p,q,s)
+        G1 = partial_duplication_model(p,q,s)
         #G2 = duplication_divergence_model(p,q,r,s)
         
-		nodes = G.number_of_nodes()
-        G3 = nx.fast_gnp_random_graph(nodes, 0.01)
+	#nodes = G.number_of_nodes()
+        #G3 = nx.fast_gnp_random_graph(nodes, 0.01)
         #degree_sequence_random = nx.degree_histogram(random_graph)
         #print(degree_sequence_random)
         #experiments(G3)
-        num_remove = [500,500,500,500,500]
+        num_remove = [100,100,100,100,100]
         for i in num_remove:
-				print(i)
+                print(i)
         #        random_attack(G1,i)
-				highest_degree_attack(G3,i)
-				experiments(G3)
+                highest_degree_attack(G1,i)
+                experiments(G1)
 				
 	
