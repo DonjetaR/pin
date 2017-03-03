@@ -175,34 +175,36 @@ def highest_degree_attack(G,num_remove):
 				#print(i[0])
 				G.remove_node(i[0])
 		return(G)
-
-
-		
-if __name__ == '__main__':
-        f=open("4932.protein.links.v10.txt","r").readlines()
+def Yeast():
+	f=open("4932.protein.links.v10.txt","r").readlines()
         #f.readline()
         #for x in f:
         #f.split("\n")
-        G=nx.Graph()
+	G=nx.Graph()
         #max_score=0
         #min_score=1000
 
-        for x in f[1:]:
-                y=x.split(" ")
-                for node in y[:1]:
-                        if int(y[2])>=990:
-                                G.add_node(node)
-                if int(y[2])>=990:
-                        G.add_edge(y[0], y[1], weight=int(y[2]))
-        p = 0.99
-        q = 0.3
-        r = 0.6
-        s = 1
+	for x in f[1:]:
+		y=x.split(" ")
+		for node in y[:1]:
+			if int(y[2])>=990:
+				G.add_node(node)
+			if int(y[2])>=990:
+				G.add_edge(y[0], y[1], weight=int(y[2]))
+	return(G)
+
 		
+if __name__ == '__main__':
+
+		p = 0.99
+		q = 0.3
+		r = 0.6
+		s = 1
+		G=Yeast()
         #print(nx.number_of_nodes(G))
         #G1 = partial_duplication_model(p,q,s)
         #experiments(G1)
-        G2 = duplication_divergence_model(p,q,r,s)
+        #G2 = duplication_divergence_model(p,q,r,s)
         #experiments(G2)
         #nodes = G.number_of_nodes()
         #G3 = nx.fast_gnp_random_graph(nodes, 0.01)
@@ -211,11 +213,11 @@ if __name__ == '__main__':
         #degree_sequence_random = nx.degree_histogram(random_graph)
         #print(degree_sequence_random)
         #experiments(G3)
-        num_remove = [100,100,100,100,100]
-        for i in num_remove:
-                print(i)
-                random_attack(G2,i)
-#                highest_degree_attack(G1,i)
-                experiments(G2)
+		num_remove = [100,100,100,100,100]
+		for i in num_remove:
+				print(i)
+				random_attack(G,i)
+				#highest_degree_attack(G1,i)
+				experiments(G)
 				
 	
