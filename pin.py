@@ -201,18 +201,18 @@ if __name__ == '__main__':
 		
         #print(nx.number_of_nodes(G))
         #G1 = partial_duplication_model(p,q,s)
-        G2 = duplication_divergence_model(p,q,r,s)
+        #G2 = duplication_divergence_model(p,q,r,s)
         
-		#nodes = G.number_of_nodes()
-        #G3 = nx.fast_gnp_random_graph(nodes, 0.01)
+		nodes = G.number_of_nodes()
+        G3 = nx.fast_gnp_random_graph(nodes, 0.01)
         #degree_sequence_random = nx.degree_histogram(random_graph)
         #print(degree_sequence_random)
         #experiments(G3)
-        num_remove = [1,1,1,1,1]
+        num_remove = [500,500,500,500,500]
         for i in num_remove:
 				print(i)
         #        random_attack(G1,i)
-				highest_degree_attack(G2,i)
-				experiments(G2)
+				highest_degree_attack(G3,i)
+				experiments(G3)
 				
 	
